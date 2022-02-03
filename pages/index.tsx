@@ -4,9 +4,12 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import {prisma} from '../lib/prisma'
-
-const Home: NextPage = ({feed}) => {
-  console.log(feed)
+import { Post } from '../component/Post'
+type props = {
+  feed : Post
+}
+const Home: NextPage<props> = (props) => {
+  console.log(props.feed)
   return (
     <div className={styles.container}>
       <Head>
@@ -21,7 +24,7 @@ const Home: NextPage = ({feed}) => {
         </h1>
 
         <ul className={styles.description}>
-          Example : {feed.map(el => {
+          Example : {props.feed.map(el => {
             return (
               <li key={el.id}>{el.title} </li>
             )
