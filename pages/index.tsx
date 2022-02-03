@@ -1,9 +1,12 @@
-import type { NextPage } from 'next'
+import type { NextPage, GetStaticProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import Link from 'next/link'
+import prisma from '../lib/prisma'
 
-const Home: NextPage = () => {
+const Home: NextPage = ({feed}) => {
+  console.log(feed)
   return (
     <div className={styles.container}>
       <Head>
@@ -14,13 +17,17 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Find Your <Link href="/Login"><a >Escape</a></Link>
         </h1>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
+        <ul className={styles.description}>
+          Example : {feed.map(el => {
+            return (
+              <li key={el.id}>{el.title} </li>
+            )
+          })}
           <code className={styles.code}>pages/index.tsx</code>
-        </p>
+        </ul>
 
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
@@ -68,5 +75,17 @@ const Home: NextPage = () => {
     </div>
   )
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  const feed = await prisma.post.findMany({
+    where: { published: true },
+    include: {
+      author: {
+        select: { name: true },
+      },
+    },
+  });
+  return { props: { feed } };
+};
 
 export default Home
