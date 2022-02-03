@@ -1,4 +1,4 @@
-import type { NextPage, GetStaticProps } from 'next'
+import type { NextPage, GetServerSideProps  } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
@@ -79,7 +79,7 @@ const Home: NextPage<props> = (props) => {
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps  = async () => {
   const feed = await prisma.post.findMany({
     where: { published: true },
     include: {
