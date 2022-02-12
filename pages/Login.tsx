@@ -5,8 +5,21 @@ import styles from '../styles/Login.module.css'
 import {prisma} from '../lib/prisma'
 
 const Login : NextPage = ()=>{
+    console.log("Login top function")
+    function handleSubmit(e){
+        e.preventDefault();
+        console.log("clicked")
+    }
+
     return (
-        <div>Login ( hihi )</div>
+        <div>Login
+            <form onSubmit={handleSubmit}>
+                <input required  type="text" name="name" id="name" placeholder='YourName here' />
+                <input required  type="text" name="quote" id="quote" placeholder='YourQuote here'/>
+                <input type="submit" value="Inscription" />
+            </form>
+            <Image src="/icon/house.svg" alt="home" width={48} height={48} />
+        </div>
     )
 }
 
